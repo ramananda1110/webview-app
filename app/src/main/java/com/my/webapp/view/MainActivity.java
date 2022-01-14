@@ -3,7 +3,9 @@ package com.my.webapp.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.databinding.DataBindingUtil;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -112,11 +114,10 @@ public class MainActivity extends AppBaseActivity {
                 AddUrlDialog dialogFragment = AddUrlDialog.display(getSupportFragmentManager(), "dialog_product");
                 break;
             case R.id.action_refresh:
-                Toast.makeText(this, "Clicked Menu 2", Toast.LENGTH_SHORT).show();
+                startActivity(getIntent());
+
                 break;
-            case R.id.action_clear:
-                Toast.makeText(this, "Clicked Menu 3", Toast.LENGTH_SHORT).show();
-                break;
+
             default:
                 break;
         }

@@ -12,9 +12,5 @@
         android:icon="@drawable/ic_remove_link"
         android:title="Refresh"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_clear"
-        android:icon="@drawable/ic_remove_link"
-        android:title="Clean"
-        app:showAsAction="never" />
+
 </menu>

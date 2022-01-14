@@ -33,7 +33,7 @@ public class AppPrefsManager {
         return preferences.getBoolean(KEY_IS_EXIT_URL, false);
     }
 
-    public void setKeyExitUrl(boolean status
+    public void setKeyUrlStatus(boolean status
     ) {
         editor.putBoolean(KEY_IS_EXIT_URL, status);
         editor.apply();
@@ -44,10 +44,11 @@ public class AppPrefsManager {
     }
 
 
-    public String setKeyUserUrl() {
-        return preferences.getString(KEY_USER_URL, "");
+    public void setKeyUserUrl(String url
+    ) {
+        editor.putString(KEY_USER_URL, url);
+        editor.apply();
     }
-
 
     private void clearSession() {
         editor.clear();
