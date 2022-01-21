@@ -4,6 +4,8 @@ package com.my.webapp.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +28,12 @@ public class AddUrlDialog extends DialogFragment {
 
     private Context mContext;
 
-
     AppPrefsManager appPrefsManager;
+
+    String load_url = "";
+    String security1 = "*2abcT2#";
+    String security2 = "*sany#";
+    String enterSecurity = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,13 +82,73 @@ public class AddUrlDialog extends DialogFragment {
 
 
         binding.btnAdd.setOnClickListener(v -> {
-            if (!binding.etUrlContent.getText().toString().isEmpty()) {
+
+            load_url = binding.etUrlContent.getText().toString();
+
+            enterSecurity = binding.etSecurityCode.getText().toString();
+
+            if (load_url.isEmpty()) {
+                binding.llUrl.setError("Please, Enter your valid URL");
+                return;
+            }
+            if (enterSecurity.isEmpty()) {
+                binding.llSecurity.setError("Please, Enter your security code");
+                return;
+            }
+
+            if (security1.equalsIgnoreCase(enterSecurity) || security2.equalsIgnoreCase(enterSecurity)) {
                 appPrefsManager.setKeyUrlStatus(true);
                 appPrefsManager.setKeyUserUrl(binding.etUrlContent.getText().toString());
-
                 dismiss();
 
                 SplashScreen.start(mContext);
+            } else {
+                binding.llSecurity.setError("Your security code does not match, Please enter valid code");
+
+            }
+
+
+        });
+
+
+        binding.etUrlContent.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (s.length() > 0) {
+                    binding.llUrl.setError(null);
+                }
+
+            }
+        });
+
+        binding.etSecurityCode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (s.length() > 0) {
+                    binding.llSecurity.setError(null);
+                }
             }
         });
     }

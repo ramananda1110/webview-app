@@ -3,23 +3,27 @@ package com.my.webapp.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.databinding.DataBindingUtil;
-
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.my.webapp.R;
 import com.my.webapp.application.AppBaseActivity;
 import com.my.webapp.databinding.ActivityWebViewBinding;
 import com.my.webapp.utils.ConnectDetect;
+
+import java.util.Objects;
 
 public class MainActivity extends AppBaseActivity {
 
@@ -33,6 +37,9 @@ public class MainActivity extends AppBaseActivity {
     ConnectDetect connectDetect;
     boolean connection = false;
 
+    private Handler handler;
+    private Runnable myRunnable;
+
     public static void start(Context mContext, String baseUrl) {
         Intent intent = new Intent(mContext,
                 MainActivity.class);
@@ -40,12 +47,13 @@ public class MainActivity extends AppBaseActivity {
         mContext.startActivity(intent);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_web_view);
-
+        setSupportActionBar(binding.toolbar);
         connectDetect = new ConnectDetect(getApplicationContext());
 
         getUrl = getIntent().getStringExtra("base_url");
@@ -60,14 +68,49 @@ public class MainActivity extends AppBaseActivity {
         if (connection) {
             webClientCreate = new WebClientCreate();
             webClientCreate.startWebview(getUrl);
+            //webClientCreate.startWebview("https://mzamin.com/");
             Log.i(TAG, "Create " + getUrl);
         } else {
             Toast.makeText(getApplicationContext(), "no internet connection",
                     Toast.LENGTH_LONG).show();
         }
 
+
+        // auto re-loaded after 45 min
+        doTheAutoRefresh();
+
+
+        binding.webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Objects.requireNonNull(getSupportActionBar()).show();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Objects.requireNonNull(getSupportActionBar()).hide();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
+    private void doTheAutoRefresh() {
+        handler = new Handler();
+        myRunnable = () -> {
+            // Things to be done
+            startActivity(getIntent());
+            Toast.makeText(getApplicationContext(), "Re-loading...",
+                    Toast.LENGTH_LONG).show();
+        };
+
+        handler.postDelayed(myRunnable, 1000 * 60 * 10);
+
+
+    }
 
     class WebClientCreate extends WebViewClient {
         @SuppressLint("SetJavaScriptEnabled")
@@ -169,6 +212,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacks(myRunnable);
         Log.i(TAG, "onDestroy");
     }
 

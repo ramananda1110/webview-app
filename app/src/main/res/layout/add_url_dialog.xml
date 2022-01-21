@@ -12,7 +12,8 @@
         <LinearLayout
             android:id="@+id/top_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -20,10 +21,8 @@
                 android:id="@+id/ivClose"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="16dp"
-
                 app:srcCompat="@drawable/ic_close" />
 
 
@@ -31,10 +30,8 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp"
                 android:text="Add Url"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
@@ -54,7 +51,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_name"
+                    android:id="@+id/ll_url"
                     style="@style/Style.Orko.InputLayout.Box.Rounded_24"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,11 +68,30 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll_security"
+                    style="@style/Style.Orko.InputLayout.Box.Rounded_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_24sdp"
+                    android:hint="Enter you security *"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_security_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        tools:ignore="MissingPrefix" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_24sdp"
                     android:paddingHorizontal="@dimen/_54sdp"
                     android:text="Add"
                     android:textAllCaps="false"

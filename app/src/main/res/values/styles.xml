@@ -9,7 +9,7 @@
     </style>
 
 
-    <style name="WebApp.Action" parent="Theme.AppCompat">
+    <style name="WebApp.Action" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
